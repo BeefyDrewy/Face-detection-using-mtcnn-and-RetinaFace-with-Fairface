@@ -38,17 +38,18 @@ while True:
         break
 
 frame_count += 1
+rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
 
 if frame_count % 20 == 0:
 
     small_rgb = cv2.resize(frame, (0,0), fx=0.25, fy=0.25)
-    small_rgb = cv2.cvtColor(small_rgb, cv2.COLOR_BGR2RGB)
-    
     results = RetinaFace.detect_faces(rgb_frame)
 
 if isinstance(results, dict):
     for key, face in results.items():
-        x1, y1, x2, y2 = [c * 4 for c in face["facial_area"]]
+        facial_area = face["facial_area"]
+        x1, y1, x2, y2 = [c * 4 for c in facial_area]
         
         face_img = rgb[y1:y2, x1:x2]
 
